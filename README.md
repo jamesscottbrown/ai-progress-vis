@@ -1,6 +1,8 @@
-# AI progress visualiser
+# AI progress visualizer
 
-This presents a visualisation of the EFF's AI Progress Mesaurement project ([Jupyter notebook](https://www.eff.org/ai/metrics), [blog post announcement](https://www.eff.org/deeplinks/2017/06/help-eff-track-progress-ai-and-machine-learning)).
+[View visualizations](https://jamesscottbrown.github.io/ai-progress-vis/)
+
+This presents a visualisation of the EFF's AI Progress Measurement project ([Jupyter notebook](https://www.eff.org/ai/metrics), [blog post announcement](https://www.eff.org/deeplinks/2017/06/help-eff-track-progress-ai-and-machine-learning)).
 
 Data is presented in two panels: the left displays a tree of problems/subproblems and metrics, whilst the right deisplays the measurements for a particular metric as a coupled table and scatterplot.
 
