@@ -209,7 +209,8 @@ function drawGraph(metric) {
         .style("fill", "blue")
         .on("mouseover", function (d, i) {
             highlightName(i);
-        });
+        })
+        .append("title").text(function(d){return d.value + " (" + d.name + ")"});
 
     svg.append("line")
         .attr("x1", 0)
