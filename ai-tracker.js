@@ -126,6 +126,7 @@ function highlightName(index) {
 
 
 function drawGraph(metric) {
+    d3.select("#lock-axes").on("change", function(){ drawGraph(metric); })
 
     var totalWidth = document.getElementById("graph").offsetWidth;
 
@@ -161,6 +162,8 @@ function drawGraph(metric) {
         return new Date(d.date);
     })).nice();
 
+
+    // choose range for y-axis
     var y_domain = d3.extent(data, function (d) {
         return d.value;
     });
@@ -169,7 +172,18 @@ function drawGraph(metric) {
     } else if (metric.target < y_domain[0]) {
         y_domain[0] = metric.target;
     }
+
+    if (document.getElementById("lock-axes").checked){
+        if (metric.scale == "Percentage error" || metric.scale == "Percentage correct"){
+            y_domain = [0, 100];
+        } else if (metric.scale == "Error rate"){
+            y_domain = [0, 1];
+        }
+    }
+
     y.domain(y_domain).nice();
+
+
 
 
     svg.append("g")
