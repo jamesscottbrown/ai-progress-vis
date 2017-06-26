@@ -175,13 +175,7 @@ function drawGraph(metric) {
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis)
-        .append("text")
-        .attr("class", "label")
-        .attr("x", width)
-        .attr("y", -6)
-        .style("text-anchor", "end")
-        .text("Date");
+        .call(xAxis);
 
     svg.append("g")
         .attr("class", "y axis")
