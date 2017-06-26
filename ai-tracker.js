@@ -129,7 +129,7 @@ function drawGraph(metric) {
 
     var totalWidth = document.getElementById("graph").offsetWidth;
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    var margin = {top: 30, right: 20, bottom: 30, left: 40},
         width = totalWidth - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
