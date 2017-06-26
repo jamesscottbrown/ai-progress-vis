@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>AI tracker</title>
+    <meta name="description" content="Tracking progress of AI">
+    <meta name="author" content="James Scott-Brown">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <script src="ai-tracker.js"></script>
+
+    <script>
+        function toggleVisibility(elementID) {
+            var element = document.getElementById(elementID);
+            var visibility = element.style.visibility;
+
+            if (visibility == "collapse") {
+                element.style.visibility = "visible";
+            } else {
+                element.style.visibility = "collapse";
+            }
+        }
+    </script>
+
+    <style>
+        .solved {
+            color: #ffc200;
+        }
+
+        body {
+            font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .dot {
+            stroke: #000;
+        }
+
+        .target {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+            stroke-dasharray: 10, 10;
+        }
+
+        .selected-row {
+            background-color: #FFCC00;
+        }
+
+        .selected-metric {
+            background-color: #FFCC00;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div class="container-narrow">
+
+    <div class="content">
+
+
+        <div class="page-header">
+            <h2>AI tracker
+                <small>a nicer interface to the <a href="https://www.eff.org/ai/metrics">EFF's AI Progress
+                    Measurement</a> data
+                </small>
+            </h2>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span12">
+                <p>Clicking on the name of a metric (indicated by "<span style="color: green">(solved)</span>" or "<span
+                        style="color: red">(unsolved)</span>") displays any corresponding measurements as a graph and
+                    table.</p>
+                <p>Mousing-over a circle in the graph (or row in a table) highlights both it and the corresponding
+                    representation in the other view.</p>
+            </div>
+
+
+            <div class="col-md-6" id="hierachy">
+            </div>
+
+
+            <div class="col-md-6" id="graph-pane">
+                <h3></h3>
+                <div id="graph"></div>
+                <div id="table"></div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <hr>
+    <footer>
+        <p>
+            <small>
+                <a href="http://jamesscottbrown.com">James Scott-Brown</a>
+            </small>
+        </p>
+    </footer>
+
+</div>
+
+
+</body>
+</html>
