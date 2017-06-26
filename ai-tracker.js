@@ -112,15 +112,6 @@ function setDetailTask(metric) {
 }
 
 
-function formID(string) {
-    return string.replace("+", "plus")
-        .replace(/\+/g, "plus")
-        .replace(/\-/g, "dash")
-        .replace(/\W/g, "")
-        .replace(/\(/g, "")
-        .replace(/\)/g, "");
-}
-
 function highlightName(index) {
     d3.select("#table").selectAll("tr").classed("selected-row", false);
     d3.select("#graph").selectAll("circle").style("fill", "blue");
@@ -207,9 +198,6 @@ function drawGraph(metric) {
     svg.selectAll(".dot")
         .data(data)
         .enter().append("circle")
-        .attr("id", function (d) {
-            return formID(d.name)
-        })
         .attr("class", "dot")
         .attr("r", 3.5)
         .attr("cx", function (d) {
@@ -265,10 +253,7 @@ function drawTable(metric) {
         .selectAll("tr")
         .data(metric["measures"])
         .enter()
-        .append("tr")
-        .attr("id", function (d) {
-            return formID(d.name);
-        });
+        .append("tr");
 
     rows.append("td").text(function (d) {
         return d.name
