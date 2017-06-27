@@ -170,9 +170,21 @@ function drawGraph(metric) {
 
     var data = metric["measures"];
 
-    x.domain(d3.extent(data, function (d) {
-        return new Date(d.date);
-    })).nice();
+    x.domain(d3.extent([].concat(data.map(function(d) {
+            if (d.min_date) {
+                return new Date(d.min_date);
+            } else {
+                return new Date(d.date);
+            }
+        }),
+        data.map(function(d) {
+            if (d.max_date) {
+                return new Date(d.max_date);
+            } else {
+                return new Date(d.date);
+            }
+        }))
+    )).nice();
 
 
     // choose range for y-axis
