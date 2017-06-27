@@ -229,6 +229,32 @@ function drawGraph(metric) {
         return d.value + " (" + d.name + ")"
     });
 
+    svg.selectAll(".time-error-line")
+        .data(data)
+        .enter().append("line")
+        .attr("class", "time-error-line")
+        .attr("y1", function (d) {
+            return y(d.value);
+        })
+        .attr("y2", function (d) {
+            return y(d.value);
+        })
+        .attr("x1", function (d) {
+            if (d.min_date) {
+                return x(new Date(d.min_date));
+            } else {
+                return x(new Date(d.date));
+            }
+        })
+        .attr("x2", function (d) {
+            if (d.max_date) {
+                return x(new Date(d.max_date));
+            } else {
+                return x(new Date(d.date));
+            }
+        });
+
+
     svg.append("line")
         .attr("x1", 0)
         .attr("x2", width)
