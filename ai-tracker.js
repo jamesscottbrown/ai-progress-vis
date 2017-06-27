@@ -115,13 +115,23 @@ function setDetailTask(metric) {
 function highlightName(index) {
     d3.select("#table").selectAll("tr").classed("selected-row", false);
     d3.select("#graph").selectAll("circle").style("fill", "blue");
+    d3.selectAll(".time-error-line").style("stroke", "#000");
+    d3.selectAll(".value-error-line").style("stroke", "#000");
 
     d3.select("#table").selectAll("tbody").selectAll("tr").filter(function (d, i) {
         return i == index;
     }).classed("selected-row", true);
+
     d3.select("#graph").selectAll("circle").filter(function (d, i) {
         return i == index;
-    }).style("fill", "#FFCC00")
+    }).style("fill", "#FFCC00");
+
+    d3.select("#graph").selectAll(".time-error-line").filter(function (d, i) {
+        return i == index;
+    }).style("stroke", "#FFCC00");
+    d3.select("#graph").selectAll(".value-error-line").filter(function (d, i) {
+        return i == index;
+    }).style("stroke", "#FFCC00");
 }
 
 
