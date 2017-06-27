@@ -1,3 +1,6 @@
+var high_is_better = ["Score", "Score (Rewards Normalized)", "Percentage correct", "ELO rating", "BLEU score"];
+var low_is_better = ["Percentage error", "Error rate", "Model Entropy", "Perplexity"];
+
 d3.json("https://raw.githubusercontent.com/AI-metrics/AI-metrics/master/export-api/v01/progress.json", function (data) {
 
     var solved_dates = getSolvedDates(data.problems);
@@ -13,9 +16,6 @@ d3.json("https://raw.githubusercontent.com/AI-metrics/AI-metrics/master/export-a
 });
 
 function getSolvedDates(problems) {
-
-    var high_is_better = ["Score", "Score (Rewards Normalized)", "Percentage correct", "ELO rating", "BLEU score"];
-    var low_is_better = ["Percentage error", "Error rate", "Model Entropy", "Perplexity"];
 
     var solved_dates = [];
     for (var i = 0; i < problems.length; i++) {
@@ -126,7 +126,9 @@ function highlightName(index) {
 
 
 function drawGraph(metric) {
-    d3.select("#lock-axes").on("change", function(){ drawGraph(metric); })
+    d3.select("#lock-axes").on("change", function () {
+        drawGraph(metric);
+    })
 
     var totalWidth = document.getElementById("graph").offsetWidth;
 
@@ -173,17 +175,15 @@ function drawGraph(metric) {
         y_domain[0] = metric.target;
     }
 
-    if (document.getElementById("lock-axes").checked){
-        if (metric.scale == "Percentage error" || metric.scale == "Percentage correct"){
+    if (document.getElementById("lock-axes").checked) {
+        if (metric.scale == "Percentage error" || metric.scale == "Percentage correct") {
             y_domain = [0, 100];
-        } else if (metric.scale == "Error rate"){
+        } else if (metric.scale == "Error rate") {
             y_domain = [0, 1];
         }
     }
 
     y.domain(y_domain).nice();
-
-
 
 
     svg.append("g")
@@ -202,6 +202,13 @@ function drawGraph(metric) {
         .style("text-anchor", "end")
         .text(metric["scale"]);
 
+    var frontier_line = svg.append('svg:path')
+        .attr('stroke', 'blue')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none')
+        .attr('id', 'performance-frontier-line')
+        .style('visibility', document.getElementById("performance-frontier").checked ? 'visible' : 'hidden');
+
 
     svg.selectAll(".dot")
         .data(data)
@@ -218,7 +225,9 @@ function drawGraph(metric) {
         .on("mouseover", function (d, i) {
             highlightName(i);
         })
-        .append("title").text(function(d){return d.value + " (" + d.name + ")"});
+        .append("title").text(function (d) {
+        return d.value + " (" + d.name + ")"
+    });
 
     svg.append("line")
         .attr("x1", 0)
@@ -232,7 +241,33 @@ function drawGraph(metric) {
         .attr("x", width - 20)
         .attr("y", y(metric["target"]) - 10)
         .style("text-anchor", "end")
-        .text(metric["target_label"])
+        .text(metric["target_label"]);
+
+    // Identify frontier points
+    var frontier_points = [];
+    var frontier_value = (low_is_better.indexOf(metric.scale) != -1) ? Infinity : -Infinity;
+    for (var i = 0; i < metric.measures.length; i++) {
+        var measure = metric.measures[i];
+        if ((low_is_better.indexOf(metric.scale) != -1 && measure.value < frontier_value) || (high_is_better.indexOf(metric.scale) != -1 && measure.value > frontier_value)) {
+            frontier_points.push(measure);
+            frontier_value = measure.value;
+        }
+    }
+
+    var lineFunc = d3.svg.line()
+        .x(function (d) {
+            return x(new Date(d.date));
+        })
+        .y(function (d) {
+            return y(d.value);
+        })
+        .interpolate('linear');
+
+    frontier_line.attr('d', lineFunc(frontier_points));
+
+    d3.select("#performance-frontier").on("change", function () {
+        frontier_line.style('visibility', this.checked ? 'visible' : 'hidden');
+    })
 }
 
 
