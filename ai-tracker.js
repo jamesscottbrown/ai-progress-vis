@@ -254,6 +254,31 @@ function drawGraph(metric) {
             }
         });
 
+    svg.selectAll(".value-error-line")
+        .data(data)
+        .enter().append("line")
+        .attr("class", "value-error-line")
+        .attr("y1", function (d) {
+            if (d.minval) {
+                return y(d.minval);
+            } else {
+                return y(d.value);
+            }
+        })
+        .attr("y2", function (d) {
+            if (d.maxval) {
+                return y(d.maxval);
+            } else {
+                return y(d.value);
+            }
+        })
+        .attr("x1", function (d) {
+            return x(new Date(d.date));
+        })
+        .attr("x2", function (d) {
+            return x(new Date(d.date));
+        });
+
 
     svg.append("line")
         .attr("x1", 0)
